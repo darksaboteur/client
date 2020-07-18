@@ -568,7 +568,7 @@ class MQTTClient implements ClientContract
      * @throws DataTransferException
      * @throws UnexpectedAcknowledgementException
      */
-    public function loop(bool $allowSleep = true, bool $exitWhenQueuesEmpty = false, int $queueWaitLimit = null): void
+    public function loop(bool $allowSleep = true, bool $exitWhenQueuesEmpty = false, int $queueWaitLimit = null, bool $loopOnce = false): void
     {
         $this->logger->debug('Starting MQTT client loop.');
 
@@ -699,6 +699,10 @@ class MQTTClient implements ClientContract
                     $this->repository->countTopicSubscriptions() === 0) {
                     break;
                 }
+            }
+
+            if ($loopOnce) {
+                break;
             }
         }
     }
